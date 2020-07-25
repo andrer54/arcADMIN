@@ -1,5 +1,3 @@
-<html>
-    <body>
 # arcADMIN
 finanças pessoais feito com PHP e mysql
 
@@ -21,9 +19,3 @@ USER HISTORY:
 [ ] adicionar categorias
 
 [] adicionar carteiras e bancos
-
-<input type="checkbox" checked> ola
-<input type="checkbox"> ola
-
-</body>
-</html>
