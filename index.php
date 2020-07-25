@@ -118,7 +118,6 @@ inner join categoria c on t.idcategoria = c.idcategoria";
 $arrayResultado = $msqli->query($query);
 
 
-
 foreach ($arrayResultado as $resultado){
 
 echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao']."</td><td>".$resultado['nomecategoria']."</td><td>".$resultado['valor']."</td><td>".$resultado['data']."</td>";
@@ -215,7 +214,7 @@ echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao
                 <tr><td>2026</td><td>44000</td><td>7</td></tr>
                 <tr><td>2027</td><td>50000</td><td>8</td></tr>
             </table>
-            <h4>total: 50.000,00</h4>
+           <h4>total: 50.000,00</h4>
         </div>
 
     </footer>
