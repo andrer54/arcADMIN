@@ -27,6 +27,11 @@ if (logado){
         border-style: solid;
         border-color: red;
     }
+    .barraNavegar{
+        float: top;
+        width: 90%;
+        background-color: yellow;
+    }
     main{
         width: 50%;
         float: left;
@@ -63,6 +68,10 @@ if (logado){
 </head>
 <body>
     <header><h1>ARCAdmin</h1></header>
+    <nav class="barraNavegar">
+        <a href="carteiras.php">Carteiras</a>
+        <a href="categorias.php">Categorias</a>
+    </nav>
     <nav>
     <div>
 <h3>budgets</h3>
@@ -113,8 +122,9 @@ if($msqli->connect_error){
     exit();
 }
 
-$query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario FROM transacao t
-inner join categoria c on t.idcategoria = c.idcategoria";
+$query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario 
+            FROM transacao t inner join categoria c 
+            on t.idcategoria = c.idcategoria";
 $arrayResultado = $msqli->query($query);
 
 
@@ -127,7 +137,16 @@ echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao
 }
 ?>
 </table>
-        </div>
+<hr>
+<form action="addtransacao.php">
+Descrição: <input type="text" name="descricao" id="">
+Valor: <input type="text" name="valor" id="">
+Carteira <input type="text" name="carteira"><br>
+Categoria: <input type="text" name="categoria" id="">
+Data <input type="datetime" name="data" id="" readonly=“true” disabled>
+<button type="submit">SALVAR</button>
+</form>
+    </div>
 <hr>
 <div>
     <h3>Objetivo</h3>
@@ -149,20 +168,42 @@ echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao
 
 
 <div>
-<h3>carteiras</h3>
-<li>Caixa: 2246,15</li>
-<li>inter: 2558,40</li>
-<li>PagSeguro: 121,76(suporte)</li>
-<li>mercadoPago: 0,39</li>
-<li>PayPal: 0,0</li>
-<li>Rappi: 40,0</li>
-<li>Carteira: 00,00</li>
-<div>
-<h3>Total</h3>
-<h4>5000,00</h4>
+
+
+
+<table>
+                <tr>
+                    <th>Carteira</th>
+                    <th>Valor</th>
+                </tr>
+        <?php
+
+$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
+
+//testar conexao
+if($msqli->connect_error){
+    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+    exit();
+}
+
+$query = "SELECT nomecarteira, valorcarteira 
+            FROM carteira";
+$arrayResultado = $msqli->query($query);
+$totalcarteira = 0;
+
+foreach ($arrayResultado as $resultado){
+
+echo "<tr><td>".$resultado['nomecarteira']."</td><td>".$resultado['valorcarteira']."</td></tr>";
+$totalcarteira += $resultado['valorcarteira'];
+
+}
+
+echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
+?>
+
+</table>
+
 </div>
-</div>
-<hr>
 
 
 </aside>
