@@ -16,6 +16,10 @@ utilizando entrega continua.
     2. Product owner quer adicionar as carteiras, bancos, onde guarda dinheiro e poder adicionar e alterar ou deletar as carteiras, alem de vizualizar. Também é preciso inserir o valor e editar o valor de cada carteira. 
     
 [X] registrar despesas e receitas<br>
+<<<<<<< HEAD
 [ ] adicionar categorias<br>
+=======
+[ ] adicionar categorias
+>>>>>>> b0d732c86b79c653fa2d351539859a620e26724c
 
 [] adicionar carteiras e bancos
