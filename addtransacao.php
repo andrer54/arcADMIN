@@ -9,14 +9,14 @@ if($_POST){
         exit();
     }
     
-    $query = "INSERT INTO transacoes (descricao, idcategoria, idusuario, idcarteira, valor)
-    VALUES ('".$_POST['descricao']."', 'idcategoria', '1', 'idcarteira', '".$_POST['valor']."')";
+    $query = "INSERT INTO transacao (descricao, idcategoria, idusuario, idcarteira, valor)
+    VALUES ('".$_POST['descricao']."', '1', '1', '1', '".$_POST['valor']."')";
     
     if($msqli->query($query) === TRUE){
         echo "adicionado com sucesso";
         header("Location: index.php");
     } else {
-        echo "houve um erro.";
+        echo "houve um erro:".$msqli->error;
     }
 }
 var_dump($_POST);

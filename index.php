@@ -122,7 +122,7 @@ if($msqli->connect_error){
     exit();
 }
 
-$query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario 
+$query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario, t.idtransacao
             FROM transacao t inner join categoria c 
             on t.idcategoria = c.idcategoria";
 $arrayResultado = $msqli->query($query);
@@ -131,14 +131,14 @@ $arrayResultado = $msqli->query($query);
 foreach ($arrayResultado as $resultado){
 
 echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao']."</td><td>".$resultado['nomecategoria']."</td><td>".$resultado['valor']."</td><td>".$resultado['data']."</td>";
-    echo "<td><a href=\"deletar.php?id=".$resultado['idusuario']."\">Editar</a></td>";
-    echo "<td><a href=\"editar.php?id=".$resultado['idusuario']."\">Deletar</a><br></td></tr>";
+    echo "<td><a href=\"edittransacao.php?idtransacao=".$resultado['idtransacao']."\">Editar</a></td>";
+    echo "<td><a href=\"deltransacao.php?idtransacao=".$resultado['idtransacao']."\">Deletar</a><br></td></tr>";
 
 }
 ?>
 </table>
 <hr>
-<form action="addtransacao.php">
+<form action="addtransacao.php" method="POST">
 Descrição: <input type="text" name="descricao" id="">
 Valor: <input type="text" name="valor" id="">
 Carteira <input type="text" name="carteira"><br>
@@ -202,7 +202,11 @@ echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
 ?>
 
 </table>
-
+<hr>
+<h4>próximos recursos</h4>
+<ul>
+    <li>criar tabela budgets/meta de recebimentos</li>
+</ul>
 </div>
 
 
