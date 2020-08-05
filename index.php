@@ -29,8 +29,11 @@ if (logado){
     }
     .barraNavegar{
         float: top;
-        width: 90%;
+        width: 95%;
+        height: 30px;
         background-color: yellow;
+        line-height: 30px;
+        margin-left: 15px;
     }
     main{
         width: 50%;
@@ -58,7 +61,7 @@ if (logado){
     }
     div{
        
-        background-color: salmon;
+        background-color: lightgray;
         padding: 3px 3px 3px 3px;
     }
 
@@ -67,38 +70,95 @@ if (logado){
 </style>
 </head>
 <body>
-    <header><h1>ARCAdmin</h1></header>
+    <header>
+        <h1>ARCAdmin</h1>
     <nav class="barraNavegar">
         <a href="carteiras.php">Carteiras</a>
         <a href="categorias.php">Categorias</a>
+        <a href="relatorios.php">Relatórios</a>
     </nav>
+</header>
+
     <nav>
     <div>
-<h3>budgets</h3>
-<li>Moradia: 600 [###############]</li>
-<li>Comida: 200  [##########_____]</li>
-<li>Vicios: 400  [#############__]</li>
-<h4>total: 1200,00</h4>
-ate agora tanto: 000
-</div>
+<h2>Budgets</h2>
 
+
+<table>
+                <tr>
+                    <th>Budget</th>
+                    <th>Valor</th>
+                </tr>
+        <?php
+
+$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
+
+//testar conexao
+if($msqli->connect_error){
+    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+    exit();
+}
+
+$query = "SELECT nomebudget, valorbudget 
+            FROM budgets";
+$arrayResultado = $msqli->query($query);
+$totalbudget = 0;
+
+foreach ($arrayResultado as $resultado){
+
+echo "<tr><td>".$resultado['nomebudget']."</td><td>".$resultado['valorbudget']."</td></tr>";
+$totalbudget += $resultado['valorbudget'];
+
+}
+
+echo "<tr><td><b>Total</td><td><b>".$totalbudget."</td></tr>";
+?>
+
+</table>
+<hr>
+    </div>
 <div>
-<h3>metas de recebimentos</h3>
-<ul>
-    <li>aux: 600</li>
-    <li>  auxm: 300</li>
-    <li>trad: 700</li>
-    <li>trab: 400</li>
-</ul>
+<h2>Metas</h2>
 
-<h4>total: 2000</h4>
-ate agora tanto: 000
+
+<table>
+                <tr>
+                    <th>Meta</th>
+                    <th>Valor</th>
+                </tr>
+        <?php
+
+$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
+
+//testar conexao
+if($msqli->connect_error){
+    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+    exit();
+}
+
+$query = "SELECT nomedameta, valormeta 
+            FROM metas";
+$arrayResultado = $msqli->query($query);
+$totalmeta = 0;
+
+foreach ($arrayResultado as $resultado){
+
+echo "<tr><td>".$resultado['nomedameta']."</td><td>".$resultado['valormeta']."</td></tr>";
+$totalmeta += $resultado['valormeta'];
+
+}
+
+echo "<tr><td><b>Total</td><td><b>".$totalmeta."</td></tr>";
+?>
+
+</table>
+
 
 </div>
-<h4>Saldo esperado +800</h4>
+<h4>Saldo esperado <?php echo $totalmeta-$totalbudget; ?></h4>
     </nav>
     <main><div>
-<h3>JULHO 2020 | RECEITA R$00,00/1.900,00  |  DESPESAS R$0,00/1.200,00</h3>
+<h3>AGOSTO 2020 | RECEITA R$00,00/1.900,00  |  DESPESAS R$0,00/1.200,00</h3>
 </div>
 
 <div>
@@ -118,7 +178,7 @@ $msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
 
 //testar conexao
 if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+    echo "erro de conexão. ERRO: ".$msqli->connect_error;
     exit();
 }
 
@@ -221,46 +281,85 @@ echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
                     <th>Mês</th> <th>ganhos</th> <th>gastos</th> <th>Saldo</td> <th>Acumulado</th>
                 </tr>
                 
-                   <tr> <td>Maio</td><td>1800,00</td><td>800,00</td><td>1000,00</td><td>4000,00</td> </tr>
-                   <tr> <td>Junho</td><td>2000,00</td><td>900,00</td><td>1100,00</td><td>5100,00</td> </tr>
-                   <tr> <td><b>Julho</td><td><b>1900,00</td><td><b>1100,00</td><td><b>800,00</td><td><b>5900,00</td> </tr>
-                   <tr> <td>Agosto</td><td>1500,00</td><td>900,00</td><td>600,00</td><td>6500,00</td> </tr>
-                   <tr> <td>Setembro</td><td>2000,00</td><td>1000,00</td><td>1000,00</td><td>7500,00</td> </tr>
-                   <tr> <td>Outubro</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>8000,00</td> </tr>
-                   <tr> <td>Novembro</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>8500,00</td> </tr>
-                   <tr> <td>Dezembro</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>9000,00</td> </tr>
-                    <tr><th>2021</th></tr>
-                   <tr> <td>Janeiro</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>9500,00</td> </tr>
-                   <tr> <td>Fevereiro</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>10000,00</td> </tr>
-                   <tr> <td>Março</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>10500,00</td> </tr>
-                   <tr> <td>Abril</td><td>1600,00</td><td>1100,00</td><td>500,00</td><td>11000,00</td> </tr>
+                <?php
 
+$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
+
+//testar conexao
+if($msqli->connect_error){
+    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+    exit();
+}
+
+$query = "SELECT mes, ganhos, gastos, acumulado
+            FROM previsaomensal";
+$arrayResultado = $msqli->query($query);
+
+
+
+foreach ($arrayResultado as $resultado){
+$saldo = 0;
+$saldo = $resultado['ganhos']-$resultado['gastos'];
+$mesatual = "Agosto";
+if($resultado['mes']==$mesatual){
+    $resultado['mes']="<b>Agosto";
+   $saldo = "<b>".$saldo;
+    $resultado['ganhos'] = "<b>".$resultado['ganhos']; 
+    $resultado['gastos'] = "<b>".$resultado['gastos'];
+    $resultado['acumulado'] = "<b>".$resultado['acumulado'];
+}
+echo "<tr><td>".$resultado['mes']."</td><td>".$resultado['ganhos']."</td><td>".$resultado['gastos']."</td><td>".$saldo."</td><td>".$resultado['acumulado']."</td></tr>";
+
+
+}
+
+?>
+
+</table>
                 
-            </table>
 
-            <h4>total: 9000</h4>
         </div>
 
         <div>
-            <h3>previsao dos anos</h3>
+        <h2>Previsão dos anos</h2>
             <table>
                 <tr>
                     <th>Ano</th><th>valor</th><th>tempo</th>
                 </tr>
-                <tr><td>2018</td><td>0</td><td>-2</td></tr>
-                <tr><td>2018</td><td>500</td><td>-1</td></tr>
-                <tr><td>2019</td><td>2000</td><td>0</td></tr>
-                <tr><td><b>2020</td><td><b>8000</td><td><b>1</td></tr>
-                <tr><td>2021</td><td>14000</td><td>2</td></tr>
-                <tr><td>2022</td><td>20000</td><td>3</td></tr>
-                <tr><td>2023</td><td>26000</td><td>4</td></tr>
-                <tr><td>2024</td><td>32000</td><td>5</td></tr>
-                <tr><td>2025</td><td>38000</td><td>6</td></tr>
-                <tr><td>2026</td><td>44000</td><td>7</td></tr>
-                <tr><td>2027</td><td>50000</td><td>8</td></tr>
-            </table>
-           <h4>total: 50.000,00</h4>
+
+                <?php
+
+$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
+
+//testar conexao
+if($msqli->connect_error){
+    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+    exit();
+}
+
+$query = "SELECT ano, valor 
+            FROM previsaoanual";
+$arrayResultado = $msqli->query($query);
+
+
+foreach ($arrayResultado as $resultado){
+
+echo "<tr><td>".$resultado['ano']."</td><td>".$resultado['valor']."</td></tr>";
+
+
+}
+
+echo "<tr><td><b>Total</td><td><b>".$resultado['valor']."</td></tr>";
+?>
+
+</table>
+             
+       
         </div>
+        
+
+
+
 
     </footer>
 </body>
