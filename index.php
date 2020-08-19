@@ -1,73 +1,6 @@
-<?php
-/*  PARTE DO LOGIN
-if (logado){
-    entrar na pagina principal
-} else {
-    entrar na pagina de login
-}
-*/
-?>
 <head>
 <title>ArcADMIN</title>
-<style>
-    body{
-        border-style: solid;
-        border-color: red;
-      
-    }
-    header{
-     
-        border-style: solid;
-    }
-    header h1{
-        margin-left: 1%;
-    }
-    nav{
-        float: left;
-        border-style: solid;
-        border-color: red;
-    }
-    .barraNavegar{
-        float: top;
-        width: 95%;
-        height: 30px;
-        background-color: yellow;
-        line-height: 30px;
-        margin-left: 15px;
-    }
-    main{
-        width: 50%;
-        float: left;
-        border-style: solid;
-        border-color: red;
-    }
-    aside{
-        float: left;
-        border-style: solid;
-        border-color: red;
-    }
-    footer{
-        position: relative;
-        margin-top: 500px;
-        border-style: solid;
-        border-color: red;
-        
-    }
-    footer div {
-        width: 21%;
-        float: left;
-        margin-right: 5%;
-        
-    }
-    div{
-       
-        background-color: lightgray;
-        padding: 3px 3px 3px 3px;
-    }
-
-
-
-</style>
+<link href="estilos/estilo.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -81,37 +14,42 @@ if (logado){
 
     <nav>
     <div>
-<h2>Budgets</h2>
+<h2>Gastos</h2>
 
 
 <table>
                 <tr>
                     <th>Budget</th>
-                    <th>Valor</th>
+                    <th>Feito</th>
+                    <th>Estimado</th>
+                    <th>Resta</th>
                 </tr>
         <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
-
-//testar conexao
-if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
-    exit();
-}
-
-$query = "SELECT nomebudget, valorbudget 
+include 'conectar.php';
+$query = "SELECT nomebudget, valorbudget, consolidado 
             FROM budgets";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 $totalbudget = 0;
+$totalConsolidado = 0;
+$saldo = 0;
 
 foreach ($arrayResultado as $resultado){
 
-echo "<tr><td>".$resultado['nomebudget']."</td><td>".$resultado['valorbudget']."</td></tr>";
+    $saldo = $resultado['valorbudget']-$resultado['consolidado'];
+
+echo "<tr><td>".$resultado['nomebudget']."</td>
+        <td>".$resultado['consolidado']."</td>
+        <td>".$resultado['valorbudget']."</td>
+        <td>".$saldo."</td></tr>";
 $totalbudget += $resultado['valorbudget'];
+$totalConsolidado += $resultado['consolidado'];
+
+$saldoTotal= $totalbudget-$totalConsolidado;
 
 }
 
-echo "<tr><td><b>Total</td><td><b>".$totalbudget."</td></tr>";
+echo "<tr><td><b>Total</td><td><b>".$totalConsolidado."</td><td><b>".$totalbudget."</td><td><b>".$saldoTotal."</td></tr>";
 ?>
 
 </table>
@@ -124,31 +62,31 @@ echo "<tr><td><b>Total</td><td><b>".$totalbudget."</td></tr>";
 <table>
                 <tr>
                     <th>Meta</th>
-                    <th>Valor</th>
+                    <th>Feito</th>
+                    <th>Estimado</th>
+                    <th>Falta</th>
                 </tr>
         <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
 
-//testar conexao
-if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
-    exit();
-}
 
-$query = "SELECT nomedameta, valormeta 
+$query = "SELECT nomedameta, valormeta, consolidado 
             FROM metas";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 $totalmeta = 0;
+$totconsolidado = 0;
 
 foreach ($arrayResultado as $resultado){
-
-echo "<tr><td>".$resultado['nomedameta']."</td><td>".$resultado['valormeta']."</td></tr>";
+    $faltam = $resultado['valormeta']-$resultado['consolidado'];
+echo "<tr><td>".$resultado['nomedameta']."</td>
+            <td>".$resultado['consolidado']."</td>
+            <td>".$resultado['valormeta']."</td>
+            <td>".$faltam."</td></tr>";
 $totalmeta += $resultado['valormeta'];
-
+$totconsolidado += $resultado['consolidado'];
 }
-
-echo "<tr><td><b>Total</td><td><b>".$totalmeta."</td></tr>";
+$restam = $totalmeta-$totconsolidado;
+echo "<tr><td><b>Total</td><td>".$totconsolidado."</td><td><b>".$totalmeta."</td><td>".$restam."</td></tr>";
 ?>
 
 </table>
@@ -174,18 +112,11 @@ echo "<tr><td><b>Total</td><td><b>".$totalmeta."</td></tr>";
                 </tr>
         <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
-
-//testar conexao
-if($msqli->connect_error){
-    echo "erro de conexão. ERRO: ".$msqli->connect_error;
-    exit();
-}
 
 $query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario, t.idtransacao
             FROM transacao t inner join categoria c 
             on t.idcategoria = c.idcategoria";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 
 
 foreach ($arrayResultado as $resultado){
@@ -199,12 +130,33 @@ echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao
 </table>
 <hr>
 <form action="addtransacao.php" method="POST">
+<label for="tipotransacao">Tipo de transação:</label>
+<select name="tipotransacao" id="tipotransacao">
+    <option value="saab">Receita</option>
+  <option value="volvo">Despesa</option>
+  <option value="mercedes">Transferencia</option>
+  </select>
 Descrição: <input type="text" name="descricao" id="">
 Valor: <input type="text" name="valor" id="">
-Carteira <input type="text" name="carteira"><br>
-Categoria: <input type="text" name="categoria" id="">
+
+<label for="carteira">Conta:</label>
+<select name="idcarteira" id="carteira">
+  <option value="7">Caixa</option>
+  <option value="8">Inter</option>
+  <option value="9">PagSeguro</option>
+  <option value="13">Carteira</option>
+</select><br>
+
+<label for="categoria">Categoria:</label>
+<select name="categoria" id="categoria">
+  <option value="volvo">Diaria</option>
+  <option value="saab">Tradução</option>
+  <option value="mercedes">Alimentação</option>
+  <option value="audi">Vícios</option>
+</select>
 Data <input type="datetime" name="data" id="" readonly=“true” disabled>
 <button type="submit">SALVAR</button>
+
 </form>
     </div>
 <hr>
@@ -238,17 +190,11 @@ Data <input type="datetime" name="data" id="" readonly=“true” disabled>
                 </tr>
         <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
 
-//testar conexao
-if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
-    exit();
-}
 
 $query = "SELECT nomecarteira, valorcarteira 
             FROM carteira";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 $totalcarteira = 0;
 
 foreach ($arrayResultado as $resultado){
@@ -265,7 +211,7 @@ echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
 <hr>
 <h4>próximos recursos</h4>
 <ul>
-    <li>criar tabela budgets/meta de recebimentos</li>
+    <li>ligar despesa a alguma carteira</li>
 </ul>
 </div>
 
@@ -283,17 +229,11 @@ echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
                 
                 <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
 
-//testar conexao
-if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
-    exit();
-}
 
 $query = "SELECT mes, ganhos, gastos, acumulado
             FROM previsaomensal";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 
 
 
@@ -329,23 +269,17 @@ echo "<tr><td>".$resultado['mes']."</td><td>".$resultado['ganhos']."</td><td>".$
 
                 <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
 
-//testar conexao
-if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
-    exit();
-}
 
 $query = "SELECT ano, valor 
             FROM previsaoanual";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 
-
+$contagem = -2;
 foreach ($arrayResultado as $resultado){
 
-echo "<tr><td>".$resultado['ano']."</td><td>".$resultado['valor']."</td></tr>";
-
+echo "<tr><td>".$resultado['ano']."</td><td>".$resultado['valor']."</td><td>".$contagem."</td></tr>";
+$contagem++;
 
 }
 

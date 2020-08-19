@@ -10,19 +10,25 @@ if($_POST){
     }
     
     $query = "INSERT INTO transacao (descricao, idcategoria, idusuario, idcarteira, valor)
-    VALUES ('".$_POST['descricao']."', '1', '1', '1', '".$_POST['valor']."')";
+                    VALUES ('".$_POST['descricao']."', '1', '1', '11', '".$_POST['valor']."'";
     
     if($msqli->query($query) === TRUE){
         echo "adicionado com sucesso";
-        header("Location: index.php");
-    } else {
-        echo "houve um erro:".$msqli->error;
+        } else {
+        echo "houve um erro ao inserir a transação: ".$msqli->error;
     }
+
+    $query = "UPDATE carteira SET valorcarteira = valorcarteira-".$_POST['valor']." 
+WHERE idcarteira = ".$_POST['idcarteira'];
+
+if($msqli->query($query) === TRUE){
+echo "adicionado com sucesso";
+header("Location: index.php");
+} else {
+echo "houve um erro em manipular carteiras:".$msqli->error;
 }
-var_dump($_POST);
-/*
 
+}
 
-*/
 
 ?>
