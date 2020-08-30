@@ -17,10 +17,13 @@ if($_POST){
         } else {
         echo "houve um erro ao inserir a transação: ".$msqli->error;
     }
-
+if($_POST['tipotransacao'] == "receita"){
+    $query = "UPDATE carteira SET valorcarteira = valorcarteira+".$_POST['valor']." 
+WHERE idcarteira = ".$_POST['idcarteira'];
+} else {
     $query = "UPDATE carteira SET valorcarteira = valorcarteira-".$_POST['valor']." 
 WHERE idcarteira = ".$_POST['idcarteira'];
-
+}
 if($msqli->query($query) === TRUE){
 echo "adicionado com sucesso";
 header("Location: index.php");

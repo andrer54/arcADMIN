@@ -132,9 +132,9 @@ echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao
 <form action="addtransacao.php" method="POST">
 <label for="tipotransacao">Tipo de transação:</label>
 <select name="tipotransacao" id="tipotransacao">
-    <option value="saab">Receita</option>
-  <option value="volvo">Despesa</option>
-  <option value="mercedes">Transferencia</option>
+    <option value="receita">Receita</option>
+  <option value="despesa">Despesa</option>
+  <option value="transferencia">Transferencia</option>
   </select>
 Descrição: <input type="text" name="descricao" id="">
 Valor: <input type="text" name="valor" id="">
@@ -168,7 +168,7 @@ Data <input type="datetime" name="data" id="" readonly=“true” disabled>
     empreendimentos, administração e investimentos<br> 
     </p>
     <p>
-        trabalhar x-chapado de casa,<br> 
+        x-trabalhar de casa,<br> 
         3 naipes, <br>
         finanças crescenstes
     </p>
@@ -211,7 +211,9 @@ echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
 <hr>
 <h4>próximos recursos</h4>
 <ul>
-    <li>ligar despesa a alguma carteira</li>
+    <li>adicionar cdn materialize</li>
+    <li>ligar despesas a consumo de budget</li>
+    <li><s>ligar despesa e receita a alguma carteira</li>
 </ul>
 </div>
 
