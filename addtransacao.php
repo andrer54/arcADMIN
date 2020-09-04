@@ -5,17 +5,18 @@ if($_POST){
 
     //testar conexao
     if($msqli->connect_error){
-        echo "erro ao conectar. ERRO: ".$msqli->connect_error;
+        echo "erro ao conectar no banco. ERRO: ".$msqli->connect_error;
         exit();
     }
     
     $query = "INSERT INTO transacao (descricao, idcategoria, idusuario, idcarteira, valor)
-                    VALUES ('".$_POST['descricao']."', '1', '1', '11', '".$_POST['valor']."'";
+                    VALUES ('".$_POST['descricao']."', '".$_POST['idcategoria']."', '1', '".$_POST['idcarteira']."', '".$_POST['valor']."')";
     
     if($msqli->query($query) === TRUE){
         echo "adicionado com sucesso";
         } else {
-        echo "houve um erro ao inserir a transação: ".$msqli->error;
+        echo "1. houve um erro ao inserir a transação: ".$msqli->error;
+        exit();
     }
 if($_POST['tipotransacao'] == "receita"){
     $query = "UPDATE carteira SET valorcarteira = valorcarteira+".$_POST['valor']." 

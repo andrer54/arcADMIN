@@ -1,20 +1,91 @@
 <head>
 <title>ArcADMIN</title>
+
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ 
 <link href="estilos/estilo.css" rel="stylesheet">
+
 </head>
 <body>
+
     <header>
-        <h1>ARCAdmin</h1>
-    <nav class="barraNavegar">
-        <a href="carteiras.php">Carteiras</a>
-        <a href="categorias.php">Categorias</a>
-        <a href="relatorios.php">Relatórios</a>
+
+   
+    <div class="navbar-fixed">
+    <ul id="dropdown1" class="dropdown-content">
+  <li><a href="#!">one</a></li>
+  <li><a href="#!">two</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">three</a></li>
+</ul>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">ArcADMIN</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="carteiras.php">Carteiras</a></li>
+          <li><a href="relatorios.php">Relatórios</a></li>
+          <li><a href="metas.php">Metas</a></li>
+          <!-- Dropdown Trigger -->
+      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+    
+        </ul>
+      </div>
     </nav>
+  </div>
+
 </header>
 
-    <nav>
-    <div>
-<h2>Gastos</h2>
+
+
+
+
+<main>
+<div class="row">
+    <div class="col s12 m4 l2">
+      <h4>Carteiras</h4>
+    <table>
+                <tr>
+                    <th>Carteira</th>
+                    <th>Valor</th>
+                </tr>
+        <?php
+
+include 'conectar.php';
+
+$query = "SELECT nomecarteira, valorcarteira 
+            FROM carteira";
+$arrayResultado = $conexao->query($query);
+$totalcarteira = 0;
+
+foreach ($arrayResultado as $resultado){
+
+echo "<tr><td>".$resultado['nomecarteira']."</td><td>".$resultado['valorcarteira']."</td></tr>";
+$totalcarteira += $resultado['valorcarteira'];
+
+}
+
+echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
+?>
+
+</table>
+   
+</div>
+<div class="col s12 m4 l8">
+<h5>O que esperar deste mês:</h5>
+
+  <div class="col s4"><h4>Setembro 2020 -></h4><img src="images/Finance-Graphic-1.png"></div>
+  <div class="col s4" id="resumogas">
+<h4>Gastos</h4>
 
 
 <table>
@@ -26,7 +97,7 @@
                 </tr>
         <?php
 
-include 'conectar.php';
+
 $query = "SELECT nomebudget, valorbudget, consolidado 
             FROM budgets";
 $arrayResultado = $conexao->query($query);
@@ -52,11 +123,8 @@ $saldoTotal= $totalbudget-$totalConsolidado;
 echo "<tr><td><b>Total</td><td><b>".$totalConsolidado."</td><td><b>".$totalbudget."</td><td><b>".$saldoTotal."</td></tr>";
 ?>
 
-</table>
-<hr>
-    </div>
-<div>
-<h2>Metas</h2>
+</table></div>
+  <div class="col s4" id="resumorec"><h4>Receita</h4>
 
 
 <table>
@@ -90,213 +158,144 @@ echo "<tr><td><b>Total</td><td>".$totconsolidado."</td><td><b>".$totalmeta."</td
 ?>
 
 </table>
-
-
 </div>
 <h4>Saldo esperado <?php echo $totalmeta-$totalbudget; ?></h4>
-    </nav>
-    <main><div>
-<h3>AGOSTO 2020 | RECEITA R$00,00/1.900,00  |  DESPESAS R$0,00/1.200,00</h3>
-</div>
-
-<div>
-            <table>
-                <tr>
-                    <th>Tipo</th>
-                    <th>descrição</th>
-                    <th>categoria</th>
-                    <th>Valor</th>
-                <th>Data</th>
-                <th>Editar</th>
-                <th>Deletar</th>
-                </tr>
-        <?php
-
-
-$query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario, t.idtransacao
-            FROM transacao t inner join categoria c 
-            on t.idcategoria = c.idcategoria";
-$arrayResultado = $conexao->query($query);
-
-
-foreach ($arrayResultado as $resultado){
-
-echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao']."</td><td>".$resultado['nomecategoria']."</td><td>".$resultado['valor']."</td><td>".$resultado['data']."</td>";
-    echo "<td><a href=\"edittransacao.php?idtransacao=".$resultado['idtransacao']."\">Editar</a></td>";
-    echo "<td><a href=\"deltransacao.php?idtransacao=".$resultado['idtransacao']."\">Deletar</a><br></td></tr>";
-
-}
-?>
-</table>
 <hr>
-<form action="addtransacao.php" method="POST">
-<label for="tipotransacao">Tipo de transação:</label>
-<select name="tipotransacao" id="tipotransacao">
-    <option value="receita">Receita</option>
-  <option value="despesa">Despesa</option>
-  <option value="transferencia">Transferencia</option>
-  </select>
-Descrição: <input type="text" name="descricao" id="">
-Valor: <input type="text" name="valor" id="">
 
-<label for="carteira">Conta:</label>
-<select name="idcarteira" id="carteira">
-  <option value="7">Caixa</option>
-  <option value="8">Inter</option>
-  <option value="9">PagSeguro</option>
-  <option value="13">Carteira</option>
-</select><br>
 
-<label for="categoria">Categoria:</label>
-<select name="categoria" id="categoria">
-  <option value="volvo">Diaria</option>
-  <option value="saab">Tradução</option>
-  <option value="mercedes">Alimentação</option>
-  <option value="audi">Vícios</option>
-</select>
-Data <input type="datetime" name="data" id="" readonly=“true” disabled>
-<button type="submit">SALVAR</button>
-
-</form>
+    <h4>Últimas transações:</h4>
+    
+    
+    
+                <table>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>descrição</th>
+                        <th>categoria</th>
+                        <th>Valor</th>
+                    <th>Data</th>
+                    <th>Editar</th>
+                    <th>Deletar</th>
+                    </tr>
+            <?php
+    
+    
+    $query = "SELECT c.receitaoudespesa, c.nomecategoria, t.descricao, t.valor, t.data, t.idusuario, t.idtransacao
+                FROM transacao t inner join categoria c 
+                on t.idcategoria = c.idcategoria";
+    $arrayResultado = $conexao->query($query);
+    
+    
+    foreach ($arrayResultado as $resultado){
+    
+    echo "<tr><td>".$resultado['receitaoudespesa']."</td><td>".$resultado['descricao']."</td><td>".$resultado['nomecategoria']."</td><td>".$resultado['valor']."</td><td>".$resultado['data']."</td>";
+        echo "<td><a href=\"edittransacao.php?idtransacao=".$resultado['idtransacao']."\">Editar</a></td>";
+        echo "<td><a href=\"deltransacao.php?idtransacao=".$resultado['idtransacao']."\">Deletar</a><br></td></tr>";
+    
+    }
+    ?>
+    </table>
+    
     </div>
-<hr>
-<div>
-    <h3>Objetivo</h3>
-    <p>
-    <b>Juntar 50 mil e faze-lo render 2% a.m" </b><br>
-    "Atraves de programação, tradução <br> 
-    empreendimentos, administração e investimentos<br> 
-    </p>
-    <p>
-        x-trabalhar de casa,<br> 
-        3 naipes, <br>
-        finanças crescenstes
-    </p>
 
+
+
+    
+   
+    
+    <div class="col s12 m4 l2">
+    
+
+
+    <h4>Nova transação:</h4>
+
+<div class="input-field col s12">
+<form action="addtransacao.php" method="POST">
+    <label for="tipotransacao">Tipo de transação:</label>
+    <select name="tipotransacao">
+        <option value="receita">Receita</option>
+      <option value="despesa">Despesa</option>
+      <option value="transferencia">Transferencia</option>
+      </select>
+    Descrição: <input type="text" name="descricao" id="">
+    Valor: <input type="text" name="valor" id="">
+
+   
+        
+    <select name="idcarteira" id="carteira">
+    <option value="" disabled selected>Escolha a carteira</option>
+      <option value="7">Caixa</option>
+      <option value="8">Inter</option>
+      <option value="9">PagSeguro</option>
+      <option value="13">Carteira</option>
+    </select>
+
+    <div class="input-field col s12">
+    <select>
+      <option value="" disabled selected>Choose your option</option>
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+    </select>
+    <label>Materialize Select</label>
+  </div>
+    
+    <label for="categoria">Categoria:</label>
+    <select name="idcategoria" id="categoria">
+      <option value="1">Trabalho</option>
+      <option value="2">Tradução</option>
+      <option value="3">Vícios</option>
+      <option value="4">Aluguel</option>
+    </select>
+     
+    <input type="datetime" name="data" id="" readonly=“true” disabled>
+    <button type="submit">SALVAR</button>
+    
+    </form>
+        
+    
 </div>
-
-</main>
-    <aside>
-
-
-<div>
-
-
-
-<table>
-                <tr>
-                    <th>Carteira</th>
-                    <th>Valor</th>
-                </tr>
-        <?php
-
-
-
-$query = "SELECT nomecarteira, valorcarteira 
-            FROM carteira";
-$arrayResultado = $conexao->query($query);
-$totalcarteira = 0;
-
-foreach ($arrayResultado as $resultado){
-
-echo "<tr><td>".$resultado['nomecarteira']."</td><td>".$resultado['valorcarteira']."</td></tr>";
-$totalcarteira += $resultado['valorcarteira'];
-
-}
-
-echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
-?>
-
-</table>
 <hr>
+
 <h4>próximos recursos</h4>
 <ul>
+    <li>listar categorias</li>
+    <li>adicionar multiusuario</li>
     <li>adicionar cdn materialize</li>
     <li>ligar despesas a consumo de budget</li>
-    <li><s>ligar despesa e receita a alguma carteira</li>
+    <li><s>ligar despesa e receita a carteira</s></li>
+
+    
 </ul>
-</div>
+<hr>
 
 
-</aside>
+</main>
+
+
+
+
+   
+   
     <footer>
 
-        <div>
-            <h3>META: Previsão mensal</h3>
 
-            <table>
-                <tr>
-                    <th>Mês</th> <th>ganhos</th> <th>gastos</th> <th>Saldo</td> <th>Acumulado</th>
-                </tr>
-                
-                <?php
-
-
-
-$query = "SELECT mes, ganhos, gastos, acumulado
-            FROM previsaomensal";
-$arrayResultado = $conexao->query($query);
-
-
-
-foreach ($arrayResultado as $resultado){
-$saldo = 0;
-$saldo = $resultado['ganhos']-$resultado['gastos'];
-$mesatual = "Agosto";
-if($resultado['mes']==$mesatual){
-    $resultado['mes']="<b>Agosto";
-   $saldo = "<b>".$saldo;
-    $resultado['ganhos'] = "<b>".$resultado['ganhos']; 
-    $resultado['gastos'] = "<b>".$resultado['gastos'];
-    $resultado['acumulado'] = "<b>".$resultado['acumulado'];
-}
-echo "<tr><td>".$resultado['mes']."</td><td>".$resultado['ganhos']."</td><td>".$resultado['gastos']."</td><td>".$saldo."</td><td>".$resultado['acumulado']."</td></tr>";
-
-
-}
-
-?>
-
-</table>
-                
-
-        </div>
-
-        <div>
-        <h2>Previsão dos anos</h2>
-            <table>
-                <tr>
-                    <th>Ano</th><th>valor</th><th>tempo</th>
-                </tr>
-
-                <?php
-
-
-
-$query = "SELECT ano, valor 
-            FROM previsaoanual";
-$arrayResultado = $conexao->query($query);
-
-$contagem = -2;
-foreach ($arrayResultado as $resultado){
-
-echo "<tr><td>".$resultado['ano']."</td><td>".$resultado['valor']."</td><td>".$contagem."</td></tr>";
-$contagem++;
-
-}
-
-echo "<tr><td><b>Total</td><td><b>".$resultado['valor']."</td></tr>";
-?>
-
-</table>
-             
        
-        </div>
         
 
 
 
 
     </footer>
+
+      <!--JavaScript at end of body for optimized loading-->
+      <script type="text/javascript" src="js/materialize.js"></script>    
+      <script>
+        M.AutoInit();
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, options);
+  });</script>
 </body>
 
