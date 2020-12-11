@@ -37,3 +37,5 @@ Carteira <input type="text" name="nomecarteira">
 Valor <input type="number" name="valorcarteira">
 <button type="submit">ADICIONAR CARTEIRA</button>
 </form>
+
+<a href="index.php"> Voltar para index</a>

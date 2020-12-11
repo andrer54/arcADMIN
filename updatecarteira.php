@@ -13,7 +13,7 @@ if($_POST){
     
     if($msqli->query($query) === TRUE){
         echo "alterado com sucesso";
-        header("Location: index.php");
+        header("Location: carteiras.php");
     } else {
         echo "houve um erro.";
     }

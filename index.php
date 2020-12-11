@@ -83,7 +83,15 @@ echo "<tr><td><b>Total</td><td><b>".$totalcarteira."</td></tr>";
 <div class="col s12 m4 l8">
 <h5>O que esperar deste mês:</h5>
 
-  <div class="col s4"><h4>Setembro 2020 -></h4><img src="images/Finance-Graphic-1.png"></div>
+  <div class="col s4">
+  <h4>
+  <?php 
+      setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+      date_default_timezone_set('America/Sao_Paulo');
+      echo strftime('%B de %Y, </h4>dia %d, %A', strtotime('today')); 
+  ?>
+  </h4>
+  <img src="images/Finance-Graphic-1.png"></div>
   <div class="col s4" id="resumogas">
 <h4>Gastos</h4>
 
@@ -124,7 +132,8 @@ echo "<tr><td><b>Total</td><td><b>".$totalConsolidado."</td><td><b>".$totalbudge
 ?>
 
 </table></div>
-  <div class="col s4" id="resumorec"><h4>Receita</h4>
+  <div class="col s4" id="resumorec">
+  <h4>Receita</h4>
 
 
 <table>
@@ -259,6 +268,7 @@ echo "<tr><td><b>Total</td><td>".$totconsolidado."</td><td><b>".$totalmeta."</td
 
 <h4>próximos recursos</h4>
 <ul>
+    <li><s>Escrever o mês corrente no topo da tela dinamicamente.</s></li>
     <li>listar categorias</li>
     <li>adicionar multiusuario</li>
     <li>adicionar cdn materialize</li>
