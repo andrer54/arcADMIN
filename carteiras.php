@@ -10,16 +10,10 @@
                 </tr>
         <?php
 
-$msqli = new mysqli("localhost", "andre", "12345", "arcADMIN");
-
-//testar conexao
-if($msqli->connect_error){
-    echo "erro ao conectar. ERRO: ".$msqli->connect_error;
-    exit();
-}
+include 'conectar.php';
 
 $query = "SELECT * FROM carteira";
-$arrayResultado = $msqli->query($query);
+$arrayResultado = $conexao->query($query);
 
 
 foreach ($arrayResultado as $resultado){

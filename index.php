@@ -33,6 +33,7 @@
         <a href="#!" class="brand-logo">ArcADMIN</a>
         <ul class="right hide-on-med-and-down">
           <li><a href="carteiras.php">Carteiras</a></li>
+          <li><a href="categorias.php">Categorias</a></li>
           <li><a href="relatorios.php">Relatórios</a></li>
           <li><a href="metas.php">Metas</a></li>
           <!-- Dropdown Trigger -->
@@ -269,9 +270,9 @@ echo "<tr><td><b>Total</td><td>".$totconsolidado."</td><td><b>".$totalmeta."</td
 <h4>próximos recursos</h4>
 <ul>
     <li><s>Escrever o mês corrente no topo da tela dinamicamente.</s></li>
-    <li>listar categorias</li>
+    <li><s>listar categorias</s></li>
     <li>adicionar multiusuario</li>
-    <li>adicionar cdn materialize</li>
+    <li><s>adicionar cdn materialize</s></li>
     <li>ligar despesas a consumo de budget</li>
     <li><s>ligar despesa e receita a carteira</s></li>
 
